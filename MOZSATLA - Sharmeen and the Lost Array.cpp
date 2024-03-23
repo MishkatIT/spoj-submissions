@@ -1,6 +1,6 @@
 /*
     author    : MishkatIT
-    created   : Friday 2024-03-22-03.22.44
+    created   : Saturday 2024-03-23-19.54.24
 */
 
 #include<bits/stdc++.h>
@@ -8,57 +8,42 @@
 #define debug(_) cout << #_ << " is " << _ << '\n';
 
 using namespace std;
-using ll        = long long;
-using ld        = long double;
-const ll mod    = 1e9 + 7;
-const ll N      = 2e5 + 10;
-const ll inf    = 1e9;
-const ll linf   = 1e18;
-
 int main()
 {
-    fio;
     int t;
     cin >> t;
+
     while (t--) {
         int n;
         cin >> n;
+
         vector<int> v(n - 1);
-        for (auto& i : v) {
-            cin >> i;
-        }
-        vector<int> ans(n + 1, 1);
         for (int i = 0; i < n - 1; i++) {
-            if (v[i] == 1) {
-                ans[i + 1]++;
-            } else if(v[i] == 2 && ans[i] != 1) {
-                ans[i]++;
-            } else {
-                ans[i + 1] = ans[i];
+            cin >> v[i];
+        }
+        vector<int> ans(n, 1);
+
+        for (int i = 1; i < n; i++) {
+            if (v[i - 1] == 0) {
+                ans[i] = ans[i - 1];
+            } else if (v[i - 1] == 1) {
+                ans[i] = ans[i - 1] + 1;
             }
         }
-        for (int i = 0; i < n; i++) {
-            cout << ans[i]  << " \n"[i == n - 1];
-        }
-        if (ans.back() <= 0) ans.back() = abs(ans.back()) + 1;
+
         for (int i = n - 2; i >= 0; i--) {
-            if (ans[i] <= 0) {
-                if (v[i] == 0) {
-                    ans[i] = ans[i + 1];
-                }
-                if (v[i] == 1) {
-                    ans[i + 1] = max(ans[i + 1], ans[i] + 1);
-                }
-                if (v[i] == 2) {
-                    ans[i] = max(ans[i], ans[i + 1] + 1);
-                }
+            if (v[i] == 0) {
+                ans[i] = max(ans[i], ans[i + 1]);
+            } else if (v[i] == 2) {
+                ans[i] = max(ans[i], ans[i + 1] + 1);
             }
         }
+
         for (int i = 0; i < n; i++) {
-            cout << ans[i]  << " \n"[i == n - 1];
+            cout << ans[i] << " \n"[i == n - 1];
         }
     }
+
     return 0;
 }
-
 
